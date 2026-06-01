@@ -9,6 +9,8 @@ struct WelcomeView: View {
     }
 }
 
-#Preview {
-    WelcomeView()
+struct WelcomeView_Previews: PreviewProvider {
+    static var previews: some View {
+        WelcomeView()
+    }
 }

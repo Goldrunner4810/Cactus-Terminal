@@ -1,14 +1,17 @@
 import Foundation
+import Combine
 
-@Observable
-class SessionStore {
-    var sessions: [DeviceSession] = []
+class SessionStore: ObservableObject {
+    @Published var sessions: [DeviceSession] = [
+        DeviceSession(name: "Device 1", serialPath: "/dev/cu.usbserial-0001", baudRate: 115200)
+    ]
+
     func add(session: DeviceSession) {
         sessions.append(session)
     }
 }
 
-class DeviceSession {
+class DeviceSession: Identifiable {
     let id = UUID()
     let name: String
     let serialPath: String

@@ -1,21 +1,55 @@
 import SwiftUI
 
-struct DeviceSidebarView: View, session: Session {
+struct DeviceSidebarView: View {
+    let session: DeviceSession
+
     var body: some View {
         HStack {
-            Text("Device 1")
+            VStack(alignment: .leading) {
+                Text(session.name)
+                Text("\(session.serialPath) at \(session.baudRate) baud")
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+            }
+
             Spacer()
+
             Image(systemName: "circle.fill").symbolEffect(.breathe)
                 .scaleEffect(0.5)
-                .foregroundStyle(Color.green)
+                .foregroundStyle(statusColor)
         }.swipeActions(edge: .trailing) {
-            Image(systemName: "trash").tint(.red)
+            Button(role: .destructive) {
+            } label: {
+                Label("Delete", systemImage: "trash")
+            }
         }.swipeActions(edge: .leading) {
-            Image(systemName: "info")
+            Button {
+            } label: {
+                Label("Info", systemImage: "info.circle")
+            }
+        }
+    }
+
+    private var statusColor: Color {
+        switch session.status {
+        case .connected:
+            .green
+        case .busy:
+            .yellow
+        case .disconnected:
+            .gray
         }
     }
 }
 
-#Preview {
-    DeviceSidebarView()
+struct DeviceSidebarView_Previews: PreviewProvider {
+    static var previews: some View {
+        DeviceSidebarView(
+            session: DeviceSession(
+                name: "Device 1",
+                serialPath: "/dev/cu.usbserial-0001",
+                baudRate: 115200
+            )
+        )
+    }
 }
