@@ -7,7 +7,7 @@ struct DeviceSidebarView: View {
         HStack {
             VStack(alignment: .leading) {
                 Text(session.name)
-                Text("\(session.serialPath) at \(session.baudRate) baud")
+                Text(session.serialPath)
                     .font(.caption)
                     .foregroundStyle(.secondary)
             }
@@ -20,12 +20,7 @@ struct DeviceSidebarView: View {
         }.swipeActions(edge: .trailing) {
             Button(role: .destructive) {
             } label: {
-                Label("Delete", systemImage: "trash")
-            }
-        }.swipeActions(edge: .leading) {
-            Button {
-            } label: {
-                Label("Info", systemImage: "info.circle")
+                Label("Disconnect", systemImage: "trash")
             }
         }
     }

@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct AddSessionView: View {
-    @StateObject private var sessionStore = SessionStore()
+    @ObservedObject var sessionStore: SessionStore
     @Environment(\.dismiss) private var dismiss
     
     let paths = [
@@ -17,7 +17,7 @@ struct AddSessionView: View {
         VStack {
             Form {
                 TextField("Name",text: $name)
-                Picker("Devices", selection: $selectedPath) {
+                Picker("Device", selection: $selectedPath) {
                     ForEach(paths, id: \.self) { path in
                         Text(path)
                     }
@@ -49,6 +49,8 @@ struct AddSessionView: View {
     }
 }
 
-#Preview {
-    AddSessionView()
+struct AddSessionView_Previews: PreviewProvider {
+    static var previews: some View {
+        AddSessionView(sessionStore: SessionStore())
+    }
 }

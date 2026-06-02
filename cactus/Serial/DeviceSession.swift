@@ -1,5 +1,7 @@
 import Foundation
+import SwiftUI
 import Combine
+import SwiftTerm
 
 class SessionStore: ObservableObject {
     @Published var sessions: [DeviceSession] = [
@@ -11,7 +13,7 @@ class SessionStore: ObservableObject {
     }
 }
 
-class DeviceSession: Identifiable {
+class DeviceSession: Identifiable, ObservableObject {
     let id = UUID()
     let name: String
     let serialPath: String
@@ -32,3 +34,5 @@ enum Status {
     case busy
     case disconnected
 }
+
+
