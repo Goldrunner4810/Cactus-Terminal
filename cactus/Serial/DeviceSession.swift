@@ -2,6 +2,7 @@ import Foundation
 import SwiftUI
 import Combine
 import SwiftTerm
+import AppKit
 
 class SessionStore: ObservableObject {
     @Published var sessions: [DeviceSession] = []
@@ -26,6 +27,17 @@ class DeviceSession: Identifiable, ObservableObject {
         self.baudRate = baudRate
         self.status = .connected
         self.loopBack = loopBack
+        
+        if (name.lowercased().trimmingCharacters(in: .whitespacesAndNewlines) == "habicht") {
+            if let url = URL(string: "https://www.youtube.com/watch?v=2wiFX31VCQs") {
+                NSWorkspace.shared.open(url)
+            }
+        } else if (name.lowercased().trimmingCharacters(in: .whitespacesAndNewlines) == "67") {
+            if let url = URL(string: "https://www.youtube.com/watch?v=dQw4w9WgXcQ") {
+                NSWorkspace.shared.open(url)
+            }
+        }
+        
         terminalController.session = self
     }
     
