@@ -8,9 +8,11 @@
 
 /* Begin PBXBuildFile section */
 		F43BA5362FCED2400010BA14 /* SwiftTerm in Frameworks */ = {isa = PBXBuildFile; productRef = F43BA5352FCED2400010BA14 /* SwiftTerm */; };
+		F43BA53C2FCEEB470010BA14 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = F43BA53B2FCEEB470010BA14 /* README.md */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		F43BA53B2FCEEB470010BA14 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		F4D9188D2FCD90E400489258 /* cactus.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = cactus.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -37,6 +39,7 @@
 		F4D918842FCD90E400489258 = {
 			isa = PBXGroup;
 			children = (
+				F43BA53B2FCEEB470010BA14 /* README.md */,
 				F4D9188F2FCD90E400489258 /* cactus */,
 				F4D9188E2FCD90E400489258 /* Products */,
 			);
@@ -118,6 +121,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F43BA53C2FCEEB470010BA14 /* README.md in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

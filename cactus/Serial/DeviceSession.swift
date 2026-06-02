@@ -4,9 +4,7 @@ import Combine
 import SwiftTerm
 
 class SessionStore: ObservableObject {
-    @Published var sessions: [DeviceSession] = [
-        DeviceSession(name: "Device 1", serialPath: "/dev/cu.usbserial-0001", baudRate: 115200)
-    ]
+    @Published var sessions: [DeviceSession] = []
 
     func add(session: DeviceSession) {
         sessions.append(session)
@@ -19,6 +17,7 @@ class DeviceSession: Identifiable, ObservableObject {
     let serialPath: String
     let baudRate: Int
     let status: Status
+    let terminalController = TerminalController()
 
     init(name: String, serialPath: String, baudRate: Int) {
         self.name = name
@@ -34,5 +33,4 @@ enum Status {
     case busy
     case disconnected
 }
-
 

@@ -3,15 +3,28 @@ import SwiftUI
 struct ContentView: View {
     @StateObject private var sessionStore = SessionStore()
     @State private var showingNewConnectionSheet = false
+    @State private var selectedSessionID: DeviceSession.ID?
+
+    private var selectedSession: DeviceSession? {
+        if let selectedSessionID {
+            return sessionStore.sessions.first { $0.id == selectedSessionID }
+        }
+
+        return sessionStore.sessions.first
+    }
 
     var body: some View {
 
         NavigationSplitView {
             VStack {
-                List {
+                List(selection: $selectedSessionID) {
                     ForEach(sessionStore.sessions) { session in
                         DeviceSidebarView(session: session)
+                            .tag(session.id)
                     }
+                }
+                .onAppear {
+                    selectedSessionID = selectedSession?.id
                 }
 
                 HStack {
@@ -31,14 +44,21 @@ struct ContentView: View {
                 }.padding()
             }
         } detail: {
-            TerminalControllerView()
+            if let selectedSession {
+                TerminalControllerView(session: selectedSession)
+                    .id(selectedSession.id)
+            } else {
+                WelcomeView()
+            }
         }.background(.ultraThinMaterial).navigationTitle("Cactus Terminal")
     }
 }
 
 struct TerminalControllerView: NSViewControllerRepresentable {
+    let session: DeviceSession
+
     func makeNSViewController(context: Context) -> TerminalController {
-        TerminalController()
+        session.terminalController
     }
 
     func updateNSViewController(_ nsViewController: TerminalController, context: Context) {}

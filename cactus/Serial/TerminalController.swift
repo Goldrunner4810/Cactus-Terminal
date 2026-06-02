@@ -10,6 +10,9 @@ class TerminalController: NSViewController, TerminalViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         terminalView = TerminalView(frame: view.bounds)
+        terminalView.terminal.setCursorStyle(.blinkBlock)
+        terminalView.nativeBackgroundColor = .windowBackgroundColor
+        terminalView.nativeForegroundColor = .textColor
         terminalView.autoresizingMask = [.width, .height]
         terminalView.terminalDelegate = self
         view.addSubview(terminalView)
