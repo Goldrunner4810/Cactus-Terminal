@@ -2,6 +2,7 @@ import SwiftUI
 
 struct AddSessionView: View {
     @ObservedObject var sessionStore: SessionStore
+    @AppStorage("showLoopbackDevice") private var showLoopbackDevice = false
     @Environment(\.dismiss) private var dismiss
     
     let paths = [
@@ -12,6 +13,7 @@ struct AddSessionView: View {
     @State private var name: String = ""
     @State private var selectedPath = "/dev/tty.usbserial.130"
     @State private var baudRate: String = "9600"
+    @State private var isLoopback: Bool = false
 
     var body: some View {
         VStack {
@@ -21,6 +23,9 @@ struct AddSessionView: View {
                     ForEach(paths, id: \.self) { path in
                         Text(path)
                     }
+                }
+                if (showLoopbackDevice) {
+                    Toggle("Loopback", isOn: $isLoopback)
                 }
                 TextField("Baud Rate",text: $baudRate)
             }
@@ -41,7 +46,8 @@ struct AddSessionView: View {
         let session = DeviceSession(
             name: name,
             serialPath: selectedPath,
-            baudRate: Int(baudRate) ?? 0
+            baudRate: Int(baudRate) ?? 0,
+            loopBack: isLoopback
         )
 
         sessionStore.add(session: session)

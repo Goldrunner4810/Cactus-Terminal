@@ -43,7 +43,8 @@ struct DeviceSidebarView_Previews: PreviewProvider {
             session: DeviceSession(
                 name: "Device 1",
                 serialPath: "/dev/cu.usbserial-0001",
-                baudRate: 115200
+                baudRate: 115200,
+                loopBack: false
             )
         )
     }

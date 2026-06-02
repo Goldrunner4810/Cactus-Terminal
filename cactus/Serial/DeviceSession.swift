@@ -17,13 +17,33 @@ class DeviceSession: Identifiable, ObservableObject {
     let serialPath: String
     let baudRate: Int
     let status: Status
+    let loopBack: Bool
     let terminalController = TerminalController()
 
-    init(name: String, serialPath: String, baudRate: Int) {
+    init(name: String, serialPath: String, baudRate: Int, loopBack: Bool) {
         self.name = name
         self.serialPath = serialPath
         self.baudRate = baudRate
         self.status = .connected
+        self.loopBack = loopBack
+        terminalController.session = self
+    }
+    
+    func sendToDevice(_ data: ArraySlice<UInt8>) {
+        if (!loopBack) {
+            // Implement Serial
+            print("Serial Logic")
+        } else {
+            terminalController.receiveFromSession(data)
+        }
+        
+    }
+
+
+    func receivedFromDevice(_ data: ArraySlice<UInt8>) {
+        if (!loopBack) {
+            print("Serial Logic recieved")
+        }
     }
 
 }

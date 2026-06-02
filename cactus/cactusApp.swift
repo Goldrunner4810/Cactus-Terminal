@@ -6,5 +6,8 @@ struct cactusApp: App {
         WindowGroup {
             ContentView()
         }
+        Settings {
+            SettingsView()
+        }
     }
 }

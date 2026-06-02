@@ -2,6 +2,8 @@ import AppKit
 import SwiftTerm
 class TerminalController: NSViewController, TerminalViewDelegate {
     var terminalView: TerminalView!
+    weak var session: DeviceSession?
+
 
     override func loadView() {
         view = NSView()
@@ -20,14 +22,12 @@ class TerminalController: NSViewController, TerminalViewDelegate {
 
 
     func send(source: TerminalView, data: ArraySlice<UInt8>) {
-        terminalView.feed(byteArray: data)
+        session?.sendToDevice(data)
     }
 
-
-    // Feed incoming data from the backend into the terminal:
-    //func onDataReceived(_ data: ArraySlice<UInt8>) {
-    //    terminalView.feed(byteArray: data)
-    //}
+    func receiveFromSession(_ data: ArraySlice<UInt8>) {
+        terminalView.feed(byteArray: data)
+    }
 
 
     func sizeChanged(source: TerminalView, newCols: Int, newRows: Int) {}
