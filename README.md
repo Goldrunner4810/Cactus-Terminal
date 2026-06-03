@@ -1,4 +1,7 @@
 # Cactus Terminal
-## -- WORK IN PROGRESS --
-This is a rewrite of my original Cactus Terminal (written in Typescript). It will eventually become a simple Serial Terminal for macOS.
-It dosen't do a whole lot right now.
+-- WORK IN PROGRESS --
+A simple serial terminal with tabs for macOS.
+Rewrite of my original Typescript Cactus Terminal.
+Uses SwiftTerm and ORSSerialPort.
+
+Any contributions welcome (If you want to work on my garbage Code)
