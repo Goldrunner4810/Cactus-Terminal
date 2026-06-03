@@ -3,6 +3,7 @@ import SwiftUI
 import Combine
 import SwiftTerm
 import AppKit
+import ORSSerial
 
 class SessionStore: ObservableObject {
     @Published var sessions: [DeviceSession] = []
@@ -12,14 +13,15 @@ class SessionStore: ObservableObject {
     }
 }
 
-class DeviceSession: Identifiable, ObservableObject {
+class DeviceSession: NSObject, Identifiable, ObservableObject, ORSSerialPortDelegate {
     let id = UUID()
     let name: String
     let serialPath: String
     let baudRate: Int
-    let status: Status
+    @Published var status: Status
     let loopBack: Bool
     let terminalController = TerminalController()
+    private var serialPort: ORSSerialPort?
 
     init(name: String, serialPath: String, baudRate: Int, loopBack: Bool) {
         self.name = name
@@ -27,6 +29,7 @@ class DeviceSession: Identifiable, ObservableObject {
         self.baudRate = baudRate
         self.status = .connected
         self.loopBack = loopBack
+        super.init()
         
         if (name.lowercased().trimmingCharacters(in: .whitespacesAndNewlines) == "habicht") {
             if let url = URL(string: "https://www.youtube.com/watch?v=2wiFX31VCQs") {
@@ -39,12 +42,17 @@ class DeviceSession: Identifiable, ObservableObject {
         }
         
         terminalController.session = self
+        openSerialPortIfNeeded()
+    }
+
+    deinit {
+        serialPort?.close()
     }
     
     func sendToDevice(_ data: ArraySlice<UInt8>) {
         if (!loopBack) {
-            // Implement Serial
-            print("Serial Logic")
+            let dataToSend = Data(data)
+            serialPort?.send(dataToSend)
         } else {
             terminalController.receiveFromSession(data)
         }
@@ -54,8 +62,48 @@ class DeviceSession: Identifiable, ObservableObject {
 
     func receivedFromDevice(_ data: ArraySlice<UInt8>) {
         if (!loopBack) {
-            print("Serial Logic recieved")
+            terminalController.receiveFromSession(data)
         }
+    }
+
+    private func openSerialPortIfNeeded() {
+        guard !loopBack else { return }
+
+        guard let port = ORSSerialPort(path: serialPath) else {
+            print("Could not create serial port at \(serialPath)")
+            status = .disconnected
+            return
+        }
+
+        serialPort = port
+        port.delegate = self
+        port.baudRate = NSNumber(value: baudRate)
+        port.open()
+    }
+
+    func serialPort(_ serialPort: ORSSerialPort, didReceive data: Data) {
+        receivedFromDevice(Array(data)[...])
+    }
+
+    func serialPortWasOpened(_ serialPort: ORSSerialPort) {
+        status = .connected
+        print("Opened serial port \(serialPort.path)")
+    }
+
+    func serialPortWasClosed(_ serialPort: ORSSerialPort) {
+        status = .disconnected
+        print("Closed serial port \(serialPort.path)")
+    }
+
+    func serialPortWasRemovedFromSystem(_ serialPort: ORSSerialPort) {
+        status = .disconnected
+        self.serialPort = nil
+        print("Serial port removed \(serialPort.path)")
+    }
+
+    func serialPort(_ serialPort: ORSSerialPort, didEncounterError error: Error) {
+        status = .disconnected
+        print("Serial port error on \(serialPort.path): \(error.localizedDescription)")
     }
 
 }
@@ -65,4 +113,3 @@ enum Status {
     case busy
     case disconnected
 }
-

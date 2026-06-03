@@ -1,7 +1,8 @@
 #  Todo List
-- Implement Serial Logic
 - Disconnect devices
 - Add webserver multiplayer
+- Switch to newly created connection automatically
+- Error handling
 - Autogenerate device name
 - Fix console error
 ```

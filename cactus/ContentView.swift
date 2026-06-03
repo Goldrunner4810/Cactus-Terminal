@@ -36,7 +36,9 @@ struct ContentView: View {
                     }.buttonStyle(.glass).controlSize(.large).buttonBorderShape(.circle)
                     Button(action: { showingNewConnectionSheet = true }) {
                         Image(systemName: "plus").frame(maxWidth: .infinity)
-                    }.buttonStyle(.glass).tint(.green)
+                    }
+                    .keyboardShortcut("n", modifiers: .command)
+                    .buttonStyle(.glass).tint(.green)
                     .controlSize(.large)
                     .buttonBorderShape(.capsule).sheet(isPresented: $showingNewConnectionSheet) {
                         AddSessionView(sessionStore: sessionStore)

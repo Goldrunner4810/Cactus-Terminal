@@ -14,25 +14,24 @@ struct DeviceSidebarView: View {
 
             Spacer()
 
-            Image(systemName: "circle.fill").symbolEffect(.breathe)
-                .scaleEffect(0.5)
-                .foregroundStyle(statusColor)
+            if (session.status == .connected) {
+                Image(systemName: "circle.fill").scaleEffect(0.5).foregroundStyle(.green)
+            } else if (session.status == .busy) {
+                Image(systemName: "circle.fill").symbolEffect(.breathe).scaleEffect(0.5).foregroundStyle(.yellow)
+            } else {
+                Image(systemName: "circle.fill").scaleEffect(0.5).foregroundStyle(.gray)
+            }
+            
         }.swipeActions(edge: .trailing) {
             Button(role: .destructive) {
             } label: {
                 Label("Disconnect", systemImage: "trash")
             }
-        }
-    }
-
-    private var statusColor: Color {
-        switch session.status {
-        case .connected:
-            .green
-        case .busy:
-            .yellow
-        case .disconnected:
-            .gray
+        }.swipeActions(edge: .leading) {
+            Button() {
+            } label: {
+                Label("Favorite", systemImage: "star")
+            }
         }
     }
 }
