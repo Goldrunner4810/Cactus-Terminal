@@ -53,8 +53,36 @@ struct ContentView: View {
                 WelcomeView()
             }
         }.background(.ultraThinMaterial).navigationTitle("Cactus Terminal")
-    }
+        .background(
+            Group {
+                Button("") { switchSession(forward: true) }
+                    .keyboardShortcut(.tab, modifiers: .control)
+                
+                Button("") { switchSession(forward: false) }
+                    .keyboardShortcut(.tab, modifiers: [.control, .shift])
+            }
+            .opacity(0)
+            .frame(width: 0, height: 0)
+        )
+        }
+    
+        private func switchSession(forward: Bool) {
+            let sessions = sessionStore.sessions
+            guard !sessions.isEmpty else { return }
+            
+            let currentIndex = sessions.firstIndex { $0.id == selectedSessionID } ?? 0
+            
+            let nextIndex: Int
+            if forward {
+                nextIndex = (currentIndex + 1) % sessions.count
+            } else {
+                nextIndex = (currentIndex - 1 + sessions.count) % sessions.count
+            }
+            
+            selectedSessionID = sessions[nextIndex].id
+        }
 }
+
 
 struct TerminalControllerView: NSViewControllerRepresentable {
     let session: DeviceSession
