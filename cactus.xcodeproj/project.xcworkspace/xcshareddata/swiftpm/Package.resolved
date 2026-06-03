@@ -1,6 +1,15 @@
 {
-  "originHash" : "34fc6ded3af11d97770b2e20b5e3cfd72f9d3309ae17ef3278b95041f16c02dc",
+  "originHash" : "ccde2fb687926c2dc89a141780f9e1cc1eae73947d5fdd16e3c96b51ca832ea7",
   "pins" : [
+    {
+      "identity" : "orsserialport",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/armadsen/ORSSerialPort",
+      "state" : {
+        "revision" : "58a8cc454304e22280f184c2d2e25ecb3d5a74c5",
+        "version" : "2.1.0"
+      }
+    },
     {
       "identity" : "swift-argument-parser",
       "kind" : "remoteSourceControl",

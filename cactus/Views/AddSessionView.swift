@@ -1,17 +1,15 @@
 import SwiftUI
+import ORSSerial
 
 struct AddSessionView: View {
     @ObservedObject var sessionStore: SessionStore
     @AppStorage("showLoopbackDevice") private var showLoopbackDevice = false
     @Environment(\.dismiss) private var dismiss
     
-    let paths = [
-        "/dev/tty.usbserial.130",
-        "/dev/tty.usbserial.230"
-    ]
+    let paths = ORSSerialPortManager.shared().availablePorts
     
-    @State private var name: String = ""
-    @State private var selectedPath = "/dev/tty.usbserial.130"
+    @State private var name: String = "Device"
+    @State private var selectedPath = ""
     @State private var baudRate: String = "9600"
     @State private var isLoopback: Bool = false
 
@@ -21,7 +19,8 @@ struct AddSessionView: View {
                 TextField("Name",text: $name)
                 Picker("Device", selection: $selectedPath) {
                     ForEach(paths, id: \.self) { path in
-                        Text(path)
+                        Text(path.path)
+                            .tag(path.path)
                     }
                 }
                 if (showLoopbackDevice) {
@@ -38,7 +37,11 @@ struct AddSessionView: View {
                     Text("Add")
                 }.keyboardShortcut(.defaultAction)
             }.padding(EdgeInsets(top: 10, leading: 0, bottom: 0, trailing: 0))
-        }.padding()
+        }.padding().onAppear {
+            if selectedPath.isEmpty, let firstPort = paths.first {
+                selectedPath = firstPort.path
+            }
+        }
         
     }
     

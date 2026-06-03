@@ -9,10 +9,13 @@
 /* Begin PBXBuildFile section */
 		F43BA5362FCED2400010BA14 /* SwiftTerm in Frameworks */ = {isa = PBXBuildFile; productRef = F43BA5352FCED2400010BA14 /* SwiftTerm */; };
 		F43BA53C2FCEEB470010BA14 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = F43BA53B2FCEEB470010BA14 /* README.md */; };
+		F4779FA42FD02EEF000E3E2A /* ORSSerial in Frameworks */ = {isa = PBXBuildFile; productRef = F4779FA32FD02EEF000E3E2A /* ORSSerial */; };
+		F4779FA82FD0377A000E3E2A /* TODO.md in Resources */ = {isa = PBXBuildFile; fileRef = F4779FA72FD0377A000E3E2A /* TODO.md */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		F43BA53B2FCEEB470010BA14 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		F4779FA72FD0377A000E3E2A /* TODO.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = TODO.md; sourceTree = "<group>"; };
 		F4D9188D2FCD90E400489258 /* cactus.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = cactus.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -30,6 +33,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F43BA5362FCED2400010BA14 /* SwiftTerm in Frameworks */,
+				F4779FA42FD02EEF000E3E2A /* ORSSerial in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -39,6 +43,7 @@
 		F4D918842FCD90E400489258 = {
 			isa = PBXGroup;
 			children = (
+				F4779FA72FD0377A000E3E2A /* TODO.md */,
 				F43BA53B2FCEEB470010BA14 /* README.md */,
 				F4D9188F2FCD90E400489258 /* cactus */,
 				F4D9188E2FCD90E400489258 /* Products */,
@@ -74,6 +79,7 @@
 			name = cactus;
 			packageProductDependencies = (
 				F43BA5352FCED2400010BA14 /* SwiftTerm */,
+				F4779FA32FD02EEF000E3E2A /* ORSSerial */,
 			);
 			productName = cactus;
 			productReference = F4D9188D2FCD90E400489258 /* cactus.app */;
@@ -105,6 +111,7 @@
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
 				F43BA5342FCED2400010BA14 /* XCRemoteSwiftPackageReference "SwiftTerm" */,
+				F4779FA22FD02EEF000E3E2A /* XCRemoteSwiftPackageReference "ORSSerialPort" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = F4D9188E2FCD90E400489258 /* Products */;
@@ -121,6 +128,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F4779FA82FD0377A000E3E2A /* TODO.md in Resources */,
 				F43BA53C2FCEEB470010BA14 /* README.md in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -368,6 +376,14 @@
 				minimumVersion = 1.5.0;
 			};
 		};
+		F4779FA22FD02EEF000E3E2A /* XCRemoteSwiftPackageReference "ORSSerialPort" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/armadsen/ORSSerialPort";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.1.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -375,6 +391,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = F43BA5342FCED2400010BA14 /* XCRemoteSwiftPackageReference "SwiftTerm" */;
 			productName = SwiftTerm;
+		};
+		F4779FA32FD02EEF000E3E2A /* ORSSerial */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = F4779FA22FD02EEF000E3E2A /* XCRemoteSwiftPackageReference "ORSSerialPort" */;
+			productName = ORSSerial;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
