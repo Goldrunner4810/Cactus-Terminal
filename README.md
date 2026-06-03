@@ -1,4 +1,4 @@
-<img width="1024" height="1024" alt="cactusIconImage" src="https://github.com/user-attachments/assets/288907f6-c55b-45be-ac85-b941a7cc92eb" />
+<img width="100" height="100" alt="cactusIconImage" src="https://github.com/user-attachments/assets/288907f6-c55b-45be-ac85-b941a7cc92eb" />
 
 # Cactus Terminal
 -- WORK IN PROGRESS --
