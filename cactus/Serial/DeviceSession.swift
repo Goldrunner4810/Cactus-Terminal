@@ -18,7 +18,7 @@ class SessionStore: ObservableObject {
 
 class DeviceSession: NSObject, Identifiable, ObservableObject, ORSSerialPortDelegate {
     let id = UUID()
-    let name: String
+    @Published var name: String
     let serialPath: String
     let baudRate: Int
     @Published var status: Status

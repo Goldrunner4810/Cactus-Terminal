@@ -1,8 +1,9 @@
 import SwiftUI
 
 struct DeviceSidebarView: View {
-    let session: DeviceSession
+    @ObservedObject var session: DeviceSession
     let sessionStore: SessionStore
+    @State private var showingRenameSheet = false
     
     var body: some View {
         HStack {
@@ -35,6 +36,16 @@ struct DeviceSidebarView: View {
             } label: {
                 Label("Favorite", systemImage: "star")
             }
+        }.contextMenu() {
+            Button("Disconnect") {
+                session.closePort()
+                sessionStore.remove(session: session)
+            }
+            Button("Rename") {
+                showingRenameSheet = true
+            }
+        }.sheet(isPresented: $showingRenameSheet) {
+            RenameView(session: session)
         }
     }
 }
