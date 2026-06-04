@@ -11,6 +11,9 @@ class SessionStore: ObservableObject {
     func add(session: DeviceSession) {
         sessions.append(session)
     }
+    func remove(session: DeviceSession) {
+        sessions.removeAll(where: { $0.id == session.id })
+    }
 }
 
 class DeviceSession: NSObject, Identifiable, ObservableObject, ORSSerialPortDelegate {
@@ -79,6 +82,13 @@ class DeviceSession: NSObject, Identifiable, ObservableObject, ORSSerialPortDele
         port.delegate = self
         port.baudRate = NSNumber(value: baudRate)
         port.open()
+    }
+    
+    func closePort() {
+        if (!loopBack) {
+            serialPort?.close()
+        }
+        status = .disconnected
     }
 
     func serialPort(_ serialPort: ORSSerialPort, didReceive data: Data) {

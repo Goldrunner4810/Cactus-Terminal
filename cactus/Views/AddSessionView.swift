@@ -41,6 +41,7 @@ struct AddSessionView: View {
             if selectedPath.isEmpty, let firstPort = paths.first {
                 selectedPath = firstPort.path
             }
+            name = "Device " + (sessionStore.sessions.count + 1).description
         }
         
     }

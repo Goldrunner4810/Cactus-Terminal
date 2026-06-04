@@ -2,7 +2,8 @@ import SwiftUI
 
 struct DeviceSidebarView: View {
     let session: DeviceSession
-
+    let sessionStore: SessionStore
+    
     var body: some View {
         HStack {
             VStack(alignment: .leading) {
@@ -24,6 +25,8 @@ struct DeviceSidebarView: View {
             
         }.swipeActions(edge: .trailing) {
             Button(role: .destructive) {
+                session.closePort()
+                sessionStore.remove(session: session)
             } label: {
                 Label("Disconnect", systemImage: "trash")
             }
@@ -33,18 +36,5 @@ struct DeviceSidebarView: View {
                 Label("Favorite", systemImage: "star")
             }
         }
-    }
-}
-
-struct DeviceSidebarView_Previews: PreviewProvider {
-    static var previews: some View {
-        DeviceSidebarView(
-            session: DeviceSession(
-                name: "Device 1",
-                serialPath: "/dev/cu.usbserial-0001",
-                baudRate: 115200,
-                loopBack: false
-            )
-        )
     }
 }

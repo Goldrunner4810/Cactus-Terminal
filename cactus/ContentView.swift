@@ -19,7 +19,7 @@ struct ContentView: View {
             VStack {
                 List(selection: $selectedSessionID) {
                     ForEach(sessionStore.sessions) { session in
-                        DeviceSidebarView(session: session)
+                        DeviceSidebarView(session: session, sessionStore: sessionStore)
                             .tag(session.id)
                     }
                 }
