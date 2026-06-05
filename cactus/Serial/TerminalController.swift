@@ -28,6 +28,15 @@ class TerminalController: NSViewController, TerminalViewDelegate {
     func receiveFromSession(_ data: ArraySlice<UInt8>) {
         terminalView.feed(byteArray: data)
     }
+    
+    func search(s: String, backwards: Bool) {
+        if (backwards) {
+            terminalView.findPrevious(s)
+        } else {
+            terminalView.findNext(s)
+        }
+        
+    }
 
 
     func sizeChanged(source: TerminalView, newCols: Int, newRows: Int) {}

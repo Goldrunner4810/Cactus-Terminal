@@ -4,6 +4,8 @@ struct ContentView: View {
     @StateObject private var sessionStore = SessionStore()
     @State private var showingNewConnectionSheet = false
     @State private var selectedSessionID: DeviceSession.ID?
+    @State private var searchText: String = ""
+    @FocusState private var isSearchFieldFocused: Bool
 
     private var selectedSession: DeviceSession? {
         if let selectedSessionID {
@@ -36,7 +38,7 @@ struct ContentView: View {
                     }.buttonStyle(.glass).controlSize(.large).buttonBorderShape(.circle)
                     Button(action: { showingNewConnectionSheet = true }) {
                         Image(systemName: "plus").frame(maxWidth: .infinity)
-                    }
+                    }.buttonStyle(.glass)
                     .keyboardShortcut("n", modifiers: .command)
                     .buttonStyle(.glass).tint(.green)
                     .controlSize(.large)
@@ -52,7 +54,24 @@ struct ContentView: View {
             } else {
                 WelcomeView()
             }
-        }.background(.ultraThinMaterial).navigationTitle("Cactus Terminal")
+        }
+        .searchable(text: $searchText).searchFocused($isSearchFieldFocused).onChange(of: searchText) {
+            selectedSession?.terminalController.search(s: searchText, backwards: false)
+        }
+        .background(.ultraThinMaterial)
+        .navigationTitle("Cactus Terminal")
+        .toolbar {
+            if (isSearchFieldFocused) {
+                ToolbarItemGroup(placement: .secondaryAction) {
+                    Button(action: { selectedSession?.terminalController.search(s: searchText, backwards: true) }) {
+                        Image(systemName: "chevron.left")
+                    }
+                    Button(action: { selectedSession?.terminalController.search(s: searchText, backwards: false) }) {
+                        Image(systemName: "chevron.right")
+                    }
+                }
+            }
+        }
         .background(
             Group {
                 Button("") { switchSession(forward: true) }
@@ -60,6 +79,10 @@ struct ContentView: View {
                 
                 Button("") { switchSession(forward: false) }
                     .keyboardShortcut(.tab, modifiers: [.control, .shift])
+                Button("") {
+                    isSearchFieldFocused.toggle()
+                }.keyboardShortcut("f", modifiers: .command)
+
             }
             .opacity(0)
             .frame(width: 0, height: 0)
