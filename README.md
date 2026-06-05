@@ -2,6 +2,7 @@
 
 # Cactus Terminal
 ##-- WORK IN PROGRESS --
+
 A simple serial terminal with tabs for macOS.
 <img width="1227" height="730" alt="cactusScreeshot" src="https://github.com/user-attachments/assets/a0ec0de6-456c-446d-bdf8-91943b02b6d7" />
 
