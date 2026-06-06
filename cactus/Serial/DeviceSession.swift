@@ -61,6 +61,11 @@ class DeviceSession: NSObject, Identifiable, ObservableObject, ORSSerialPortDele
         }
         
     }
+    
+    func sendStringToDevice(_ string: String) {
+        let array: [UInt8] = Array(string.utf8)
+        sendToDevice(array[...])
+    }
 
 
     func receivedFromDevice(_ data: ArraySlice<UInt8>) {

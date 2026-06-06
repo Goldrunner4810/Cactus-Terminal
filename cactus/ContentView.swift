@@ -6,6 +6,7 @@ struct ContentView: View {
     @State private var selectedSessionID: DeviceSession.ID?
     @State private var searchText: String = ""
     @FocusState private var isSearchFieldFocused: Bool
+    @State var inspectorIsPresented: Bool = false
 
     private var selectedSession: DeviceSession? {
         if let selectedSessionID {
@@ -39,7 +40,7 @@ struct ContentView: View {
                     Button(action: { showingNewConnectionSheet = true }) {
                         Image(systemName: "plus").frame(maxWidth: .infinity)
                     }.buttonStyle(.glass)
-                    .keyboardShortcut("n", modifiers: .command)
+                    .keyboardShortcut("t", modifiers: .command)
                     .buttonStyle(.glass).tint(.green)
                     .controlSize(.large)
                     .buttonBorderShape(.capsule).sheet(isPresented: $showingNewConnectionSheet) {
@@ -51,27 +52,38 @@ struct ContentView: View {
             if let selectedSession {
                 TerminalControllerView(session: selectedSession)
                     .id(selectedSession.id)
+                    .searchable(text: $searchText, placement: .toolbarPrincipal).searchFocused($isSearchFieldFocused).onChange(of: searchText) {
+                        selectedSession.terminalController.search(s: searchText, backwards: false)
+                    }
+                    .toolbar {
+                        if (isSearchFieldFocused) {
+                            ToolbarItemGroup(placement: .primaryAction) {
+                                Spacer()
+                                Button(action: { selectedSession.terminalController.search(s: searchText, backwards: true) }) {
+                                    Image(systemName: "chevron.left").keyboardShortcut(.leftArrow, modifiers: .command)
+                                }
+                                Button(action: { selectedSession.terminalController.search(s: searchText, backwards: false) }) {
+                                    Image(systemName: "chevron.right").keyboardShortcut(.rightArrow, modifiers: .command)
+                                }
+                                Spacer()
+                            }
+                        }
+                        ToolbarItemGroup(placement: .primaryAction) {
+                            Spacer()
+                            Button(action: { inspectorIsPresented.toggle() }) {
+                                Image(systemName: "document.on.clipboard")
+                            }.keyboardShortcut("k", modifiers: .command)
+                        }
+                    }
+                    .inspector(isPresented: $inspectorIsPresented) {
+                        SnippetLibraryView(currentSession: selectedSession)
+                    }
             } else {
                 WelcomeView()
             }
         }
-        .searchable(text: $searchText).searchFocused($isSearchFieldFocused).onChange(of: searchText) {
-            selectedSession?.terminalController.search(s: searchText, backwards: false)
-        }
         .background(.ultraThinMaterial)
         .navigationTitle("Cactus Terminal")
-        .toolbar {
-            if (isSearchFieldFocused) {
-                ToolbarItemGroup(placement: .secondaryAction) {
-                    Button(action: { selectedSession?.terminalController.search(s: searchText, backwards: true) }) {
-                        Image(systemName: "chevron.left")
-                    }
-                    Button(action: { selectedSession?.terminalController.search(s: searchText, backwards: false) }) {
-                        Image(systemName: "chevron.right")
-                    }
-                }
-            }
-        }
         .background(
             Group {
                 Button("") { switchSession(forward: true) }
