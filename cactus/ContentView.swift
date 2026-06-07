@@ -6,6 +6,7 @@ struct ContentView: View {
     @State private var selectedSessionID: DeviceSession.ID?
     @State private var searchText: String = ""
     @FocusState private var isSearchFieldFocused: Bool
+    @AppStorage("startWithLoopbackDevice") private var startWithLoopbackDevice = false
     @State var inspectorIsPresented: Bool = false
 
     private var selectedSession: DeviceSession? {
@@ -47,6 +48,11 @@ struct ContentView: View {
                         AddSessionView(sessionStore: sessionStore)
                     }
                 }.padding()
+            }
+            .onAppear() {
+                if (startWithLoopbackDevice) {
+                    sessionStore.add(session: DeviceSession(name: "Test", serialPath: "lo", baudRate: 0, loopBack: true))
+                }
             }
         } detail: {
             if let selectedSession {

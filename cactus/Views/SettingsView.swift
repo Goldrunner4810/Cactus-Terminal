@@ -2,10 +2,12 @@ import SwiftUI
 
 struct SettingsView: View {
     @AppStorage("showLoopbackDevice") private var showLoopbackDevice = false
+    @AppStorage("startWithLoopbackDevice") private var startWithLoopbackDevice = false
     var body: some View {
         Form {
             Section(header: Text("Developer")){
                 Toggle("Show loopback device", isOn: $showLoopbackDevice).toggleStyle(.switch)
+                Toggle("Startup with loopback Device", isOn: $startWithLoopbackDevice).toggleStyle(.switch)
             }
             Section(header: Text("About")) {
                 HStack {
