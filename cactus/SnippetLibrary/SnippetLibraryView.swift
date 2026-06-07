@@ -9,6 +9,11 @@ struct SnippetLibraryView: View {
         VStack() {
             ForEach(snippetStore.snippets) { snippet in
                 SnippetView(snippet: snippet, session: currentSession)
+                    .contextMenu {
+                        Button("Delete") {
+                            snippetStore.remove(snippet: snippet)
+                        }
+                    }
             }
             Spacer()
             HStack {

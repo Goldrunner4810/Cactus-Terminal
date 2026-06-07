@@ -1,10 +1,3 @@
-//
-//  SnippetEditor.swift
-//  Cactus Terminal
-//
-//  Created by Simon Gabryel on 06.06.26.
-//
-
 import SwiftUI
 
 struct SnippetEditor: View {
