@@ -7,13 +7,22 @@ struct SnippetLibraryView: View {
     
     var body: some View {
         VStack() {
-            ForEach(snippetStore.snippets) { snippet in
-                SnippetView(snippet: snippet, session: currentSession)
+            List {
+                ForEach(snippetStore.snippets) { snippet in
+                    SnippetView(snippet: snippet, session: currentSession)
+                    .swipeActions(edge: .trailing, allowsFullSwipe: true) {
+                        Button(role: .destructive) {
+                            snippetStore.remove(snippet: snippet)
+                        } label: {
+                            Label("Delete", systemImage: "trash")
+                        }
+                    }
                     .contextMenu {
                         Button("Delete") {
                             snippetStore.remove(snippet: snippet)
                         }
                     }
+                }
             }
             Spacer()
             HStack {

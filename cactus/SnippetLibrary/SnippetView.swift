@@ -6,21 +6,19 @@ struct SnippetView: View {
     
     var body: some View {
         Button(action: { run() }) {
-                VStack {
-                    HStack {
-                        Text(snippet.name)
-                        Spacer()
-                    }
-                    HStack {
-                        Text(snippet.content.prefix(20) + "...")
-                        Spacer()
-                    }
-                    
-                }
-                .buttonStyle(.glass)
-                Spacer()
-            
+            VStack(alignment: .leading, spacing: 4) {
+                Text(snippet.name)
+                    .font(.headline)
+                    .foregroundColor(.primary)
+                
+                Text(snippet.content.prefix(20) + "...")
+                    .font(.subheadline)
+                    .foregroundColor(.secondary)
+            }
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .contentShape(Rectangle())
         }
+        .buttonStyle(.plain)
        
     }
     func run() {
